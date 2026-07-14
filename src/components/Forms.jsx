@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./Forms.css";
 
-const API_BASE = "http://localhost:5000/api/users";
+const API_BASE = "https://user-profile-creation-backend.onrender.com/api/users";
 // When you deploy, swap to your Render URL, e.g.:
 // const API_BASE = "https://user-creation-backend.onrender.com/api/users";
 
