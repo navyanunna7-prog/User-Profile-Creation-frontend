@@ -24,7 +24,7 @@ function Form() {
     const init = async () => {
       if (userId) {
         try {
-          const res = await fetch(`${API_BASE}/${userId}`);
+          const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/${userId}`);
           if (res.ok) {
             applyUser(await res.json());
             return;
@@ -34,7 +34,7 @@ function Form() {
         }
       }
       try {
-        const res = await fetch(API_BASE, {
+        const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: "", email: "", age: "", username: "", bio: "" }),
@@ -87,7 +87,7 @@ function Form() {
         ...form,
         age: form.age === "" ? undefined : Number(form.age),
       };
-      const res = await fetch(`${API_BASE}/${userId}`, {
+      const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -113,7 +113,7 @@ function Form() {
     formData.append(kind, file);
     flashStatus(`Uploading ${kind}...`);
     try {
-      const res = await fetch(`${API_BASE}/${userId}/${kind}`, { method: "PUT", body: formData });
+      const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/${userId}/${kind}`, { method: "PUT", body: formData });
       const data = await res.json();
       if (!res.ok) return flashStatus(data.error || "Upload failed");
       applyUser(data);
@@ -127,7 +127,7 @@ function Form() {
   const handleDeleteAvatar = async () => {
     if (!userId) return;
     try {
-      const res = await fetch(`${API_BASE}/${userId}/avatar`, { method: "DELETE" });
+      const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/${userId}/avatar`, { method: "DELETE" });
       const data = await res.json();
       if (res.ok) {
         applyUser(data);
@@ -143,7 +143,7 @@ function Form() {
     if (!query.trim()) return setResults([]);
     setSearching(true);
     try {
-      const res = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query.trim())}`);
+      const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/search?q=${encodeURIComponent(query.trim())}`);
       const data = await res.json();
       setResults(res.ok ? data : []);
     } catch (err) {
@@ -168,7 +168,7 @@ function Form() {
   const handleDeleteProfile = async (id) => {
     if (!window.confirm("Delete this profile permanently?")) return;
     try {
-      const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+      const res = await fetch(`https://user-profile-creation-backend.onrender.com/api/users/${id}`, { method: "DELETE" });
       if (res.ok) {
         setResults(results.filter((u) => u._id !== id));
         flashStatus("Profile deleted");
